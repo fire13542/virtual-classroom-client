@@ -1,0 +1,29 @@
+<div class="card  w-75 h-75 my-5 mx-auto">
+    <div *ngIf="updateErrorMsg" class="alert alert-danger">{{ updateErrorMsg }}</div>
+    <div class="body card-body w-100 m-auto row">
+        <div class="col col-lg-6">
+            <img [src]="image" alt="user image" class="w-50 h-auto"><br><br>
+            <form #f="ngForm" (ngSubmit)="changeImage()">
+                <label for="image"></label>
+                <input (change)="selectFile($event.target.files[0])" ngModel type="file" name="image" class="form-control">
+                <br><br>
+                <button class="btn btn-primary">Change Image</button>
+            </form>
+        </div>
+        <div class="col col-lg-6">
+            <label for="name"><b>Name:</b></label>
+            <input [(ngModel)]="name" [readonly]="readOnly" type="text" name="name" class="form-control">
+
+            <label for="email"><b>Email:</b></label>
+            <input [(ngModel)]="email" [readonly]="readOnly" type="email" name="email" class="form-control">
+            <br>
+            <button (click)="edit()" class="btn btn-info ml-5">edit</button>
+            <button (click)="changeNameAndEmail()" class="btn btn-primary ml-5">Change Name and Email</button><br><br>
+            <button (click)="edit()" class="btn btn-warning ml-5">Change Password</button><br>
+            <div *ngIf="waiting" class="alert alert-warning">{{ waiting }}</div>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <button (click)="deleteAccount" class="btn btn-danger">Delete Account</button>
+</div>

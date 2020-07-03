@@ -1,0 +1,13 @@
+<div *ngFor="let student of students" class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        <img src="{{ student.image }}" class="card-img">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ student.name }}</h5>
+          <button (click)="removeStudentFromCourse(student)" class="btn btn-danger">remove this student from the course</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,71 @@
+<div class="row mt-2">
+    <div class="card w-25 h-auto col col-lg-3">
+        <div class="body card-body w-100">
+            <!-- left side: navigation through course content -->
+            <nav>
+                <div class="text-center dropright">
+                    <button (click)="toggleDropdown()" class="btn btn-primary btn-lg dropdown-toggle">
+                        Enroll Course
+                    </button>
+                    <div id="create-course-form" [class.show]="isDropdown" class="dropdown-menu p-3 w-75">
+                        <form #f="ngForm" (ngSubmit)="enrollCourse(f)">
+                            <div class="form-group">
+                              <label for="courseCode">Course Code</label>
+                              <input ngModel name="courseCode" #code="ngModel" type="text" class="form-control" placeholder="Enter Course Code" required>
+                              <div class="alert alert-danger" *ngIf="code.touched && code.errors?.required">there is no course with this code</div>
+                            </div>
+                            <button class="btn btn-primary mt-3" [disabled]="f.invalid">Enroll</button>
+                        </form>
+                        <br>
+                        <div class="alert alert-warning" *ngIf="waiting">
+                          {{ waiting }}
+                        </div>
+                        <div class="alert alert-danger" *ngIf="enrollCourseError">
+                          {{ enrollCourseError }}
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <ul class="list-group list-group-flush">
+                    <li *ngFor="let c of courses" (click)="setCourse(c)" class="list-group-item btn btn-outline-dark border border-dark rounded-pill mb-1 font-weight-bold">
+                        {{ c.name }}
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <div class="card w-50 h-auto col col-lg-5 mx-auto">
+        <div class="body card-body w-100">
+            <!-- middle: view accourding to nav active -->
+            <main *ngIf="course" class="text-center">
+                <h1>{{ course.name }}</h1>
+                <img [src]="course.image" class="rounded w-75 h-auto" alt="Course Image">
+                <div class="text-center">
+                    <button (click)="goToCoursePage()" class="col col-6 btn btn-success">Go To Course Page</button>
+                </div>
+            </main>
+            <main *ngIf="!course">
+                <app-courses-carousel></app-courses-carousel>
+            </main>
+        </div>
+    </div>
+
+    <div class="card w-50 h-auto col col-lg-3 mx-auto">
+        <div class="body card-body w-100">
+            <!-- right side: notifications -->
+            <aside>
+                <div>
+                    <ul class="list-group">
+                        <li *ngFor="let course of courses">
+                            <div class="alert alert-primary my-2">
+                                {{ course.name }}
+                                <span class="badge badge-primary badge-pill">{{ announcementsNumbers[course.id] }}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>

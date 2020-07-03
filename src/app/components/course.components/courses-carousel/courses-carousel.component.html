@@ -1,0 +1,9 @@
+<ngb-carousel *ngIf="images" class="w-100">
+    <ng-template *ngFor="let image of images" ngbSlide>
+      <div class="picsum-img-wrapper">
+        <img [src]="image" alt="learning quotes" class="w-100 h-100">
+      </div>
+    </ng-template>
+</ngb-carousel>
+
+<div *ngIf="carouselError" class="alert alert-warning">Select a Course</div>

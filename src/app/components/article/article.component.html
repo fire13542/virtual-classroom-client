@@ -1,0 +1,14 @@
+<div class="card  w-75 h-75 my-5 mx-auto" id="signup">
+    <div class="body card-body w-100 m-auto">
+        <img class="text-center" src="{{ blog.articleImageUrl }}" alt="">
+        <h1 class="text-center">{{ blog.title }}</h1>
+        <br>
+        <hr>
+        <p class="card-text text-center"><small class="text-muted">{{ blog.createDate }}</small></p>
+        <hr>
+        <br>
+        <div [innerHTML]="blog.content">
+
+        </div>
+    </div>
+</div>

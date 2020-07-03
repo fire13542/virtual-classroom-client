@@ -1,0 +1,19 @@
+#login-form {
+    width: 400px;
+}
+
+#logo {
+    border-radius: 23px;
+}
+
+#oclass {
+    border-radius: 5px;
+}
+
+#trend {
+    font-size: 1.7em;
+}
+
+#forget {
+    cursor: pointer;
+}

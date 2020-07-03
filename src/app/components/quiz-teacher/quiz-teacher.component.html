@@ -1,0 +1,77 @@
+<div class="card w-50 h-auto mt-5 mx-auto">
+    <form #quizForm="ngForm" (ngSubmit)="createQuiz(quizForm)">
+        <label for="quizName">Quiz Name</label>
+        <input [(ngModel)]="quiz.quizName" type="text" name="quizName" class="form-control" required>
+        <label for="quizDate">Quiz Date</label>
+        <input ngModel type="date" name="quizDate" class="form-control" required>
+        <input ngModel type="time" name="quizTime" class="form-control" required>
+        <label for="quizEnd">Quiz End</label>
+        <input ngModel type="date" name="quizEndDate" class="form-control" required>
+        <input ngModel type="time" name="quizEndTime" class="form-control" required>
+        <div class="card w-75 h-auto mt-5 mx-auto">
+            <button [disabled]="quizForm.invalid" class="btn btn-primary">Create Quiz</button>
+        </div>
+    </form>
+</div>
+
+<div class="card w-75 h-auto mt-5 mx-auto">
+    <form #questionForm="ngForm" (ngSubmit)="addQuestion(questionForm)">
+        <div class="m-2">
+            <label for="questionText"><b>Question Text</b></label>
+            <input ngModel #questionText="ngModel" type="text" name="questionText" class="form-control" required>
+        </div>
+        <br>
+        <div class="m-2">
+            <label for="choice1" class="w-25">choice1:</label>
+            <input ngModel #choice1Radio="ngModel" type="radio" name="answer" value="choice1" required>
+            <input ngModel name="choice1" #choice1="ngModel" type="text" class="form-control w-50">
+        </div>
+        <div class="m-2">
+            <label for="choice2" class="w-25">choice2:</label>
+            <input ngModel #choice2Radio="ngModel" type="radio" name="answer" value="choice2" required>
+            <input ngModel name="choice2" #choice2="ngModel" type="text" class="form-control w-50">
+        </div>
+        <div class="m-2">
+            <label for="choice3" class="w-25">choice3:</label>
+            <input ngModel #choice3Radio="ngModel" type="radio" name="answer" value="choice3" required>
+            <input ngModel name="choice3" #choice3="ngModel" type="text" class="form-control w-50">
+        </div>
+        <div class="m-2">
+            <label for="choice4" class="w-25">choice4:</label>
+            <input ngModel #choice4Radio="ngModel" type="radio" name="answer" value="choice4" required>
+            <input ngModel name="choice4" #choice4="ngModel" type="text" class="form-control w-50">
+        </div>
+        <div class="m-2">
+            <label for="grades">Grades</label>
+            <input ngModel #grades="ngModel" type="number" name="grades" value="1" min="1" required>
+        </div>
+        <button [disabled]="questionForm.invalid" class="btn btn-primary m-2">Add Question</button>
+    </form>
+</div>
+
+<div *ngFor="let question of questions, index as i" class="card w-75 h-auto mt-5 mx-auto">
+    <div class="card-body">
+        <div class="row border"><b>{{ question.questionText }}</b></div>
+        <br>
+        <div class="float-right">
+            <div class="rounded-circle alert alert-info text-center">{{ question.grades }} grades</div>
+            <div class="alert alert-success text-center">true answer: {{ question.trueAnswer }}</div>
+        </div>
+        <div>
+            <button *ngIf="question.choices[0]" (click)="setAnswer(i, question.choices[0])" class="btn btn-outline-success w-50 my-1">{{ question.choices[0] }}</button>
+            <br>
+            <button *ngIf="question.choices[1]" (click)="setAnswer(i, question.choices[1])" class="btn btn-outline-success w-50 my-1">{{ question.choices[1] }}</button>
+            <br>
+            <button *ngIf="question.choices[2]" (click)="setAnswer(i, question.choices[2])" class="btn btn-outline-success w-50 my-1">{{ question.choices[2] }}</button>
+            <br>
+            <button *ngIf="question.choices[3]" (click)="setAnswer(i, question.choices[3])" class="btn btn-outline-success w-50 my-1">{{ question.choices[3] }}</button>
+        </div>
+        <br>
+        <div class="align-middle">
+            <span class="mx-1">you choose:</span> 
+            <span class="alert alert-success">{{ answers[i] }}</span>
+        </div>
+    </div>
+</div>
+
+

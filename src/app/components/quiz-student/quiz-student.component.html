@@ -1,0 +1,47 @@
+<div class="card w-75 h-auto mt-5 mx-auto text-center">
+    <h1>{{ course.name }} Course</h1>
+    <h2>{{ quiz.quizName }}</h2>
+    <h3>Max Grade: {{ quiz.maxGrade }}</h3>
+    <h3>{{ quiz.quizDate }}</h3>
+    <h3>{{ quiz.quizEnd }}</h3>
+</div>
+
+<div *ngFor="let question of quiz.questions, index as i" class="card w-75 h-auto mt-5 mx-auto">
+    <div class="card-body">
+        <div class="row border"><b>{{ question.questionText }}</b></div>
+        <br>
+        <div class="float-right">
+            <div class="rounded-circle alert alert-info text-center">{{ question.grades }} grades</div>
+        </div>
+        <div>
+            <button *ngIf="question.choices[0]" (click)="setAnswer(i, question.choices[0])" class="btn btn-outline-success w-50 my-1">{{ question.choices[0] }}</button>
+            <br>
+            <button *ngIf="question.choices[1]"  (click)="setAnswer(i, question.choices[1])" class="btn btn-outline-success w-50 my-1">{{ question.choices[1] }}</button>
+            <br>
+            <button *ngIf="question.choices[2]" (click)="setAnswer(i, question.choices[2])" class="btn btn-outline-success w-50 my-1">{{ question.choices[2] }}</button>
+            <br>
+            <button *ngIf="question.choices[3]" (click)="setAnswer(i, question.choices[3])" class="btn btn-outline-success w-50 my-1">{{ question.choices[3] }}</button>
+        </div>
+        <br>
+        <div class="align-middle">
+            <span class="mx-1">you choose:</span> 
+            <span class="alert alert-success">{{ answers[i] }}</span>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="quizRunning && quiz.questions" class="card w-75 h-auto mt-5 mx-auto">
+    <button (click)="finishQuiz()" class="btn btn-primary">I Finish The Quiz</button>
+</div>
+
+<div *ngIf="quizMessage" class="alert alert-warning mx-auto w-50 m-1">
+    {{ quizMessage }}
+</div>
+
+<div *ngIf="!quizMessage" class="alert alert-warning mx-auto w-50 m-1">
+    do Not Refresh this page, else you can Not complete the quiz
+</div>
+
+<div *ngIf="studentGrade" class="alert alert-info w-75 mx-auto text-center">
+    your grade is {{ studentGrade }} / {{ quiz.maxGrade }}
+</div>

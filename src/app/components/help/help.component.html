@@ -1,0 +1,45 @@
+<div class="m-5">
+<p class="text-center">
+<button type="button" class="btn btn-outline-primary" (click)="isTeacherCollapsed = !isTeacherCollapsed">
+    For Teacher
+</button>
+</p>
+<div [ngbCollapse]="isTeacherCollapsed">
+<div class="card">
+    <div class="card-body">
+      <ul>
+        <li>first, you must sign up to gain account</li>
+        <li>then, you must sign in to enter the virtual classroom</li>
+        <li>in the virtual classroom, there are many part</li>
+        <li>first part is Lesson: you can live stream, upload files, add links, and discuss with your student</li>
+        <li>second part is Homework: you do the same thing in the lesson without live stream</li>
+        <li>third part is Quiz: you can determine quiz data and add questions to the quiz</li>
+        <li>forth part is Announcement: you can announce your student some events</li>
+      </ul>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="m-5">
+<p class="text-center">
+<button type="button" class="btn btn-outline-primary" (click)="isStudentCollapsed = !isStudentCollapsed">
+    For Student
+</button>
+</p>
+<div [ngbCollapse]="isStudentCollapsed">
+<div class="card">
+    <div class="card-body">
+      <ul>
+        <li>first, you must sign up to gain account</li>
+        <li>then, you must sign in to enter the virtual classroom</li>
+        <li>in the virtual classroom, there are many part</li>
+        <li>first part is Lesson: you can watch live stream, download files, surf links, and discuss with teacher and other students</li>
+        <li>second part is Homework: you do the same thing in the lesson without watch live stream</li>
+        <li>third part is Quiz: you can do online quiz and get your grade directly</li>
+        <li>forth part is Announcement: you can read events that teacher announced</li>
+      </ul>
+    </div>
+</div>
+</div>
+</div>

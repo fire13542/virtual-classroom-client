@@ -1,0 +1,17 @@
+<div class="card  w-50 h-75 mt-5 mx-auto">
+    <div class="body card-body w-100 m-auto">
+        <h2 class="text-center">Admin Login</h2>
+        <form #f="ngForm" (ngSubmit)="adminLogin(f)">
+          <label for="adminName" class="m-1">Admin Name: </label>
+          <input ngModel name="adminName" #name="ngModel" type="text" class="form-control m-2" placeholder="Admin Name" required>
+
+          <label for="password" class="m-1">Password: </label>
+          <input ngModel name="password" #password="ngModel" type="password" class="form-control m-2" placeholder="Password" required>
+
+          <button class="btn btn-primary mx-2 mt-2" [disabled]="f.invalid">Login</button>
+        </form>
+        <br>
+        <div class="alert alert-danger m-2" *ngIf="adminLoginError"> {{ adminLoginError }} </div>
+    </div>
+</div>
+    

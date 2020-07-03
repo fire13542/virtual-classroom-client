@@ -1,0 +1,9 @@
+<div *ngFor="let blog of blogs" class="card w-50 h-75 my-5 mx-auto">
+    <img (click)="goToArticle(blog._id, blog.title)" src="{{ blog.articleImageUrl }}" class="card-img-top" alt="...">
+    <div (click)="goToArticle(blog._id, blog.title)" class="card-body">
+      <h1 class="card-title">{{ blog.title }}</h1>
+      <p class="card-text"><small class="text-muted">last update in {{ blog.createDate }}</small></p>
+      <br>
+      <button *ngIf="isAdmin" (click)="deleteBlog(blog._id)" class="btn btn-danger">Delete this Article</button>
+    </div>
+</div>

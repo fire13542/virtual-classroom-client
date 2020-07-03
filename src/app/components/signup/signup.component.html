@@ -1,0 +1,37 @@
+<img id="bg" src="/assets/images/signup-background.jpg">
+
+<div class="card  w-50 h-75 mt-5 mx-auto" id="signup">
+<div class="body card-body w-100 m-auto">
+    <h2 class="text-center">Sign Up</h2>
+    <form #f="ngForm" (ngSubmit)="signup(f)">
+      <label for="name" class="m-1">Name: </label>
+      <input ngModel name="name" #name="ngModel" type="text" class="form-control m-2" placeholder="Your name" required>
+      <div class="alert alert-danger" *ngIf="name.invalid && name.touched">Name is required</div>
+  
+      <label for="email" class="m-1">Email: </label>
+      <input ngModel name="email" #email="ngModel" type="email" class="form-control m-2" placeholder="Email" required email>
+      <div class="alert alert-danger m-2" *ngIf="email.touched && email.errors?.required">Email is required</div>
+      <div class="alert alert-danger m-2" *ngIf="email.touched && email.errors?.email">Your input doesn't match email format</div>
+  
+      <label for="password" class="m-1">Password: </label>
+      <input ngModel name="password" #password="ngModel" type="password" class="form-control m-2" placeholder="Password"
+        required minlength="6">
+      <div class="alert alert-danger m-2" *ngIf="password.touched && password.errors?.required">Password is required</div>
+      <div class="alert alert-danger m-2" *ngIf="password.touched && password.errors?.minlength">Password should be 6+ charachters</div>
+  
+      <label for="passwordConfirm" class="m-1">Confirm Password: </label>
+      <input ngModel name="passwordConfirm" #passwordConfirm="ngModel" type="password" class="form-control m-2" placeholder="Confirm Password" required>
+      <div class="alert alert-danger m-2" *ngIf="passwordConfirm.invalid && passwordConfirm.touched">Password Confirm is required</div>
+      <div class="alert alert-danger m-2" *ngIf="passwordConfirm.value !== password.value && passwordConfirm.touched">Passwords are not equal</div>
+    
+      <div class="form-group m-2 text-center">
+        <input ngModel type="radio" name="character" value="teacher" required class="mx-2"> Teacher 
+        <input ngModel type="radio" name="character" value="student" required class="mx-2"> Student 
+      </div>
+
+      <button class="btn btn-primary mx-2 mt-2" [disabled]="f.invalid || passwordConfirm.value !== password.value">Create Account</button>
+    </form>
+    <br>
+    <div class="alert alert-danger m-2" *ngIf="signupError"> {{ signupError }} </div>
+</div>
+</div>

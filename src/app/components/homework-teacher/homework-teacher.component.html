@@ -1,0 +1,115 @@
+
+<div class="card w-50 h-75 my-5 mx-auto">
+    <div class="card-body text-center">
+      <h1 class="card-title">{{ homework.name }}</h1>
+      <p class="card-text"><small class="text-muted">{{ homework.createDate }}</small></p>
+      <br>
+      <button (click)="deleteHomework()" class="btn btn-danger">Delete Homework</button>
+    </div>
+</div>
+
+<div class="card w-75 h-75 my-2 mx-auto">
+    <h2 class="text-center">Files & Links</h2>
+    <div class="card-body row">
+        <div class="col col-6">
+            <div class="text-center dropup">
+                <button (click)="toggleFileDropdown()" class="btn btn-primary btn-lg dropdown-toggle">
+                    Add a File
+                </button>
+                <div id="create-course-form" [class.show]="isFileDropdown" class="dropdown-menu p-3">
+                    <form #f="ngForm" (ngSubmit)="addFile()" enctype="multipart/form-data">
+                        <div class="form-group">
+                          <label for="file">Choose File</label>
+                          <input name="file" #file type="file" (change)="setFile($event.target.files[0])" class="form-control" required>
+                        </div>
+                        <button class="btn btn-primary mt-3" [disabled]="f.invalid">Upload</button>
+                    </form>
+                    <br>
+                    <div class="alert alert-warning" *ngIf="waitingFile">
+                      {{ waitingFile }}
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div *ngFor="let file of homework.files"> <!--for files-->
+                <img src="../../../assets/images/select-file.jpg" width="30px" height="30px"><!--windows file icon-->
+                <span (click)="downloadFile(file)" class="btn btn-outline-secondary mx-2">{{ file }}</span>
+                <button (click)="removeFile(file)" class="btn btn-outline-danger rounded-circle">X</button>
+            </div>
+        </div>
+        <div class="col col-6">
+            <div class="text-center dropup">
+                <button (click)="toggleLinkDropdown()" class="btn btn-primary btn-lg dropdown-toggle">
+                    Add a Link
+                </button>
+                <div id="create-course-form" [class.show]="isLinkDropdown" class="dropdown-menu p-3">
+                    <form #f="ngForm" (ngSubmit)="addLink()">
+                        <div class="form-group">
+                            <label for="statement">Statement:</label>
+                            <input [(ngModel)]="statement" name="statement" type="text" class="form-control" required placeholder="Enter Link Statement">
+                        </div>
+                        <div class="form-group">
+                            <label for="link">Link:</label>
+                            <input [(ngModel)]="linkUrl" name="link" type="text" class="form-control" required placeholder="Enter the Link">
+                        </div>
+                        <button class="btn btn-primary mt-3" [disabled]="f.invalid">Add Link</button>
+                    </form>
+                    <br>
+                    <div class="alert alert-warning" *ngIf="waitingFile">
+                      {{ waitingLink }}
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div *ngFor="let l of homework.links"> <!--for links-->
+                <img src="../../../assets/images/link.png" width="30px" height="30px"><!--windows file icon-->
+                <a href="{{ l.link }}" target="_blank" class="mx-2">{{ l.statement }}</a>
+                <button (click)="removeLink(l)" class="btn btn-outline-danger rounded-circle">X</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card w-75 h-75 my-2 mx-auto">
+    <h2 class="text-center">Solutions</h2>
+    <div class="card-body">
+        <table class="table table-striped text-center">
+            <thead>
+              <tr>
+                <th scope="col w-50">Student Name</th>
+                <th scope="col w-50">solution file</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let solution of homework.solutions">
+                <td>{{ solution.studentName }}</td>
+                <td><button (click)="downloadSolutionFile(solution.solutionFile)" class="btn btn-outline-info">{{ solution.solutionFile }}</button></td>
+              </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card w-75 h-75 my-2 mx-auto">
+    <h2 class="text-center">Disscussion</h2>
+    <div class="card-body">
+        <div *ngFor="let comment of comments" 
+            [class.bg-success]="comment.sender.id == teacher._id" 
+            [class.float-left]="comment.sender.id == teacher._id" 
+            [class.bg-light]="comment.sender.id != teacher._id" 
+            [class.float-right]="comment.sender.id != teacher._id" 
+            class="w-75 border border-dark rounded m-2 p-1">
+            <span class="text-secondary" [class.text-light]="comment.sender.id == teacher._id">{{ comment.sender.name }} - {{ comment.timestamp }}</span>
+            <br>
+            <span class="text-dark">{{ comment.content }}</span>
+        </div>
+    </div>
+    <div class="w-100 h-50 border border-dark rounded m-1 p-1 bg-light">
+        <form #f="ngForm" (ngSubmit)="sendComment()" class="align-middle">
+            <div class="d-flex align-items-center">
+                <input [(ngModel)]="commentContent" name="comment" type="text" class="form-control w-100 d-inline-block" placeholder="Enter a Comment">
+                <input type="image" src="../../../assets/images/comment.png" class="d-inline-block" width="50px" height="50px">
+            </div>
+        </form>
+    </div>
+</div>

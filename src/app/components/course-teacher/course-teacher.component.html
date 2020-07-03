@@ -1,0 +1,152 @@
+<div class="card w-75 h-auto col col-lg-5 mx-auto">
+    <div class="body card-body w-100 text-center">
+        <h1>{{ course.name }}</h1>
+        <img [src]="course.image" class="w-100 h-auto" alt="course image">
+        <label for="ChangeImage">choose image:</label>
+        <input (change)=(setImage($event.target.files[0])) type="file" name="ChangeImage" class="form-control" accept="image/*">
+        <button (click)="changeCourseImage()" class="btn btn-info">Change Course Image</button>
+    </div>
+</div>
+
+<div class="card w-75 h-auto col col-lg-5 mx-auto">
+    <div class="body card-body w-100 text-center">
+        <div id="courseCode">
+            <button type="button" class="btn btn-outline-info my-2" (click)="isCourseCodeCollapsed = !isCourseCodeCollapsed" [attr.aria-expanded]="!isCourseCodeCollapsed">
+                Course Code
+            </button>
+            <div [ngbCollapse]="isCourseCodeCollapsed">
+                <div class="alert alert-success">{{ course.courseCode }}</div>
+            </div>
+        </div>
+        <div id="changeCourseCode">
+            <button (click)="changeCourseCode()" class="btn btn-outline-warning">Change Course Code</button>
+            <div *ngIf="changeCourseCodeWaiting" class="alert alert-warning">{{ changeCourseCodeWaiting }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="row container-fluid">
+    <div class="col col-lg-3 col-md-6 col-sm-12 border border-1 border-dark rounded text-center">
+        <h3>Lessons</h3>
+        <div class="text-center dropup">
+            <button (click)="toggleLessonDropdown()" class="btn btn-primary mb-2 dropdown-toggle">
+                Create New Lesson
+            </button>
+            <div id="create-lesson-form" [class.show]="isLessonDropdown" class="dropdown-menu p-3">
+                <form #lessonForm="ngForm" (ngSubmit)="createNewLesson(lessonForm)">
+                    <div class="form-group">
+                      <label for="name">Lesson Name</label>
+                      <input ngModel name="name" #name="ngModel" type="text" class="form-control" placeholder="Enter Lesson Name" required>
+                    </div>
+                    <button class="btn btn-primary mt-3" [disabled]="lessonForm.invalid">Create</button>
+                </form>
+                <br>
+                <div class="alert alert-warning" *ngIf="waiting">
+                  {{ waiting }}
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush"><!--for-->
+            <li *ngFor="let lesson of course.lessons" (click)="getLessonData(lesson)" class="list-group-item btn btn-outline-info border border-dark rounded-pill mb-1 font-weight-bold">
+                {{ lesson.name }} 
+            </li>
+        </ul>
+    </div>
+    <div class="col col-lg-3 col-md-6 col-sm-12 border border-1 border-dark rounded text-center">
+        <h3>Homeworks</h3>
+        <div class="text-center dropup">
+            <button (click)="toggleHomeworkDropdown()" class="btn btn-primary mb-2 dropdown-toggle">
+                Create New Homework
+            </button>
+            <div id="create-homework-form" [class.show]="isHomeworkDropdown" class="dropdown-menu p-3">
+                <form #homeworkForm="ngForm" (ngSubmit)="createNewHomework(homeworkForm)">
+                    <div class="form-group">
+                      <label for="name">Homework Name</label>
+                      <input ngModel name="name" #name="ngModel" type="text" class="form-control" placeholder="Enter Lesson Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="toDate">To Date:</label>
+                        <input ngModel name="toDate" #toDate="ngModel" type="date" class="form-control" required>
+                    </div>
+                    <button class="btn btn-primary mt-3" [disabled]="homeworkForm.invalid">Create</button>
+                </form>
+                <br>
+                <div class="alert alert-warning" *ngIf="waiting">
+                  {{ waiting }}
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush"><!--for-->
+            <li *ngFor="let homework of course.homeworks" (click)="getHomeworkData(homework)" class="list-group-item btn btn-outline-info border border-dark rounded-pill mb-1 font-weight-bold">
+                {{ homework.name }}
+            </li>
+        </ul>
+    </div>
+    <div class="col col-lg-3 col-md-6 col-sm-12 border border-1 border-dark rounded text-center">
+        <h3>Quizes</h3>
+        <button (click)="goToCreateQuiz()" class="btn btn-primary mb-2">Create New Quiz</button>
+        <ul class="list-group list-group-flush"><!--for-->
+            <li *ngFor="let quiz of course.quizes" (click)="goToQuizReview(quiz.id)" class="list-group-item btn btn-outline-info border border-dark rounded-pill mb-1 font-weight-bold">
+                {{ quiz.name }}
+            </li>
+        </ul>
+    </div>
+    <div class="col col-lg-3 col-md-6 col-sm-12 border border-1 border-dark rounded text-center">
+        <h3>Annoncements</h3>
+        <div class="text-center dropup">
+            <button (click)="toggleAnnouncementDropdown()" class="btn btn-primary mb-1 dropdown-toggle">
+                Add Announcement
+            </button>
+            <div id="create-lesson-form" [class.show]="isAnnouncementDropDown" class="dropdown-menu p-3">
+                <form #form="ngForm" (ngSubmit)="addAnnouncement(form)">
+                    <div class="form-group">
+                        <label for="title">Announcement Title:</label>
+                        <input ngModel name="title" #title="ngModel" type="text" class="form-control" placeholder="Enter Announcement Title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Announcement Description:</label>
+                        <input ngModel name="description" #description="ngModel" type="text" class="form-control" placeholder="Enter Announcement Description" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fromDate">From Date:</label>
+                        <input ngModel name="fromDate" #fromDate="ngModel" type="date" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="toDate">To Date:</label>
+                        <input ngModel name="toDate" #toDate="ngModel" type="date" class="form-control" required>
+                    </div>
+                    <button class="btn btn-primary mt-3">Create</button>
+                </form>
+                <br>
+                <div class="alert alert-warning" *ngIf="waiting">
+                  {{ waiting }}
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush"><!--for-->
+            <li *ngFor="let announcement of announcements" class="list-group-item mb-1 font-weight-bold">
+                <button type="button" class="btn btn-outline-info" (click)="isAnnouncementCollapsed[announcement._id] = !isAnnouncementCollapsed[announcement._id]" [attr.aria-expanded]="!isAnnouncementCollapsed[announcement._id]">
+                    {{ announcement.title }}
+                </button>
+                <div [ngbCollapse]="isAnnouncementCollapsed[announcement._id]">
+                    <div class="alert alert-info">
+                        {{ announcement.description }}
+                        <br>
+                        <button (click)="deleteAnnouncement(announcement._id)" class="btn btn-danger mt-2">Delete Announcement</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

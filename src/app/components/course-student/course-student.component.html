@@ -1,0 +1,61 @@
+<div class="card w-75 h-auto col col-lg-5 mx-auto">
+    <div class="body card-body w-100 text-center">
+        <h1>{{ course.name }}</h1>
+        <h1>by teacher {{ course.teacherName }}</h1>
+        <img [src]="courseImage" class="w-100 h-auto" alt="course image">
+        <button (click)="leaveCourse()" class="btn btn-danger">Leave Course</button>
+    </div>
+</div>
+
+<div class="row container-fluid">
+    <div class="col col-lg-3 col-md-6 col-sm-12 border border-1 border-dark rounded text-center">
+        <h3>Lessons</h3>
+        <ul class="list-group list-group-flush"><!--for-->
+            <li *ngFor="let lesson of course.lessons" (click)="getLessonData(lesson)" class="list-group-item btn btn-outline-info border border-dark rounded-pill mb-1 font-weight-bold">
+                {{ lesson.name }}
+            </li>
+        </ul>
+    </div>
+    <div class="col col-lg-3 col-md-6 col-sm-12 border border-1 border-dark rounded text-center">
+        <h3>Homeworks</h3>
+        <ul class="list-group list-group-flush"><!--for-->
+            <li *ngFor="let homework of course.homeworks" (click)="getHomeworkData(homework)" class="list-group-item btn btn-outline-info border border-dark rounded-pill mb-1 font-weight-bold">
+                {{ homework.name }}
+            </li>
+        </ul>
+    </div>
+    <div class="col col-lg-3 col-md-6 col-sm-12 border border-1 border-dark rounded text-center">
+        <h3>Quizes</h3>
+        <ul class="list-group list-group-flush"><!--for-->
+            <li *ngFor="let quiz of course.quizes" (click)="goToQuizPage(quiz.id)" class="list-group-item btn btn-outline-info border border-dark rounded-pill mb-1 font-weight-bold">
+                {{ quiz.name }}
+            </li>
+        </ul>
+    </div>
+    <div class="col col-lg-3 col-md-6 col-sm-12 border border-1 border-dark rounded text-center">
+        <h3>Annoncements</h3>
+        <ul class="list-group list-group-flush"><!--for-->
+            <li *ngFor="let announcement of announcements" class="list-group-item mb-1 font-weight-bold">
+                <button type="button" class="btn btn-outline-info" (click)="isAnnouncementCollapsed[announcement._id] = !isAnnouncementCollapsed[announcement._id]" [attr.aria-expanded]="!isAnnouncementCollapsed[announcement._id]">
+                    {{ announcement.title }}
+                </button>
+                <div [ngbCollapse]="isAnnouncementCollapsed[announcement._id]">
+                    <div class="alert alert-info">
+                        {{ announcement.description }}
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

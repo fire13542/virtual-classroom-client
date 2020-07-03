@@ -1,0 +1,24 @@
+<div class="text-center">
+    <div class="btn-group" role="group">
+        <button (click)="setSubject('')" type="button" class="btn btn-info">All</button>
+        <button (click)="setSubject('read')" type="button" class="btn btn-info">read</button>
+        <button (click)="setSubject('problem')" type="button" class="btn btn-info">Problem</button>
+        <button (click)="setSubject('help')" type="button" class="btn btn-info">Help</button>
+        <button (click)="setSubject('feedback')" type="button" class="btn btn-info">Feedback</button>
+    </div>
+</div>
+
+<div *ngFor="let contact of contactsArray" class="card w-50 h-75 my-5 mx-auto">
+    <div class="card-body">
+        <h4 class="card-title">Sender Name: {{ contact.senderName }}</h4>
+        <h4 class="card-title">Sender Email: {{ contact.senderEmail }}</h4>
+        <h4 class="card-title">Subject: {{ contact.messageSubject }}</h4>
+        <hr>
+        <p class="card-text">{{ contact.messageContent }}</p>
+        <hr>
+        <p class="card-text"><small class="text-muted">sent in {{ contact.sendDate }}</small></p>
+        <br>
+        <button *ngIf="!contact.read" (click)="read($event, contact)" class="btn btn-secondary">Read OK</button>
+        <img class="w-25" *ngIf="contact.read" src="../../../assets/images/read.png">
+    </div>
+</div>

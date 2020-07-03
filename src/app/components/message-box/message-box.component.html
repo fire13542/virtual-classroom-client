@@ -1,0 +1,51 @@
+<div class="card w-50 h-75 my-5 mx-auto" id="signup">
+    <div class="body card-body w-100 m-auto">
+    <form #f="ngForm" (ngSubmit)="send(f)">
+        <div *ngIf="isTeacher" class="form-group">
+          <label for="name">Choose a Student:</label>
+          <select ngModel name="student" class="form-control" (change)="setStudentImage($event.target.value)" required>
+            <option *ngFor="let student of students; index as i" value="{{ student.id }}" selected>
+              {{ student.name }}
+            </option>
+          </select>
+          <img *ngIf="studentImage" [src]="'http://localhost:3000/students-images/' + studentImage" class="w-25 h-auto">
+        </div>
+        <div *ngIf="isStudent" class="form-group">
+          <label for="name">Choose a Teacher:</label>
+          <select ngModel name="teacher" class="form-control" (change)="setTeacherImage($event.target.value)" required>
+            <option *ngFor="let teacher of teachers" value="{{ teacher.id }}">
+              {{ teacher.name }} 
+            </option>
+          </select>
+          <img *ngIf="teacherImage" [src]="'http://localhost:3000/teachers-images/' + teacherImage" class="w-25 h-auto">
+        </div>
+        <div class="form-group">
+          <label for="subject">Subject:</label>
+          <input ngModel name="subject" type="text" class="form-control" required>
+          <label for="content">Content:</label><br>
+          <textarea ngModel name="content" rows="10" class="w-75" required></textarea>
+        </div>
+        <button class="btn btn-primary" [disabled]="f.invalid">Send</button>
+    </form>
+  </div>
+</div>
+
+<div class="card w-50 h-75 my-5 mx-auto">
+  <div class="body card-body w-100 m-auto text-center">
+    <div class="btn-group" role="group">
+      <button (click)="filterMessages('all')" type="button" class="btn btn-primary">All</button>
+      <button (click)="filterMessages('sent')" type="button" class="btn btn-primary">Sent</button>
+      <button (click)="filterMessages('recieved')" type="button" class="btn btn-primary">Recieved</button>
+    </div>
+    <div *ngFor="let message of messagesDisplay">
+      <button type="button" class="btn btn-outline-success w-100 my-2" (click)="isMessageCollapsed[message._id] = !isMessageCollapsed[message._id]">
+          subject: {{ message.subject }} <br>
+          sender: {{ message.sender.name }} <br>
+          date: {{ message.timestamp }}
+      </button>
+      <div [ngbCollapse]="isMessageCollapsed[message._id]">
+          <div class="alert alert-success">{{ message.content }}</div>
+      </div>
+    </div>
+  </div>
+</div>
