@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
 
 
 @Component({
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BlogAdminComponent implements OnInit {
 
-  API_URL ='http://localhost:3000/';
+  API_URL = ApiService.API_URL;
 
   blogTitle: string = '';
   blogContent: string ='';
@@ -25,7 +26,6 @@ export class BlogAdminComponent implements OnInit {
 
   createArticle(form){
     let data = form.value;
-    console.log(data);
     fetch(this.API_URL + 'blog/new', {
       method: 'post', 
       headers: {'Content-Type': 'application/json', token: localStorage.getItem('token')},

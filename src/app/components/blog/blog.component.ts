@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BlogService } from 'src/app/services/blog.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-blog',
@@ -22,7 +23,7 @@ export class BlogComponent implements OnInit {
   }
 
   getAllBlogs() {
-    fetch('http://localhost:3000/blog/all', {
+    fetch(ApiService.API_URL + 'blog/all', {
       method: 'get'
     })
     .then(res => {

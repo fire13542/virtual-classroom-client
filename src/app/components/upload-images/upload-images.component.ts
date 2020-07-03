@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
 
 
-var API_URL ='http://localhost:3000/';
+var API_URL = ApiService.API_URL;
 
 @Component({
   selector: 'app-upload-images',
