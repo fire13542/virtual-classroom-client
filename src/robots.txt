@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://o-class-virtual-classroom.herokuapp.com/sitemap.xml
