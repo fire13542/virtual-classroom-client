@@ -55,6 +55,9 @@ export class ReciveContactUsComponent implements OnInit {
     }
     else if(subject === 'read'){
       this.contactsArray = this.allContacts.filter(c => c.read);
+    } 
+    else if(subject === 'notRead'){
+      this.contactsArray = this.allContacts.filter(c => !c.read);
     }
     else {
       this.contactsArray = this.allContacts.filter(c => c.messageSubject === subject);

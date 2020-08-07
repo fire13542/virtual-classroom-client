@@ -3,6 +3,8 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { SocketService } from 'src/app/services/socket.service';
+import { GradeService } from 'src/app/services/grade.service';
+import { stdout } from 'process';
 
 
 
@@ -25,11 +27,12 @@ export class NavbarComponent implements OnInit {
 
   waiting: string = '';
 
-  constructor(public ngZone: NgZone, private router: Router, private as: AuthService) {
-    this.socket = SocketService.socket;
+  constructor(public ngZone: NgZone, private router: Router, private as: AuthService, private gs: GradeService) {
+    
    }
 
   ngOnInit(): void {
+    this.socket = SocketService.socket;
     this.isStudent = AuthService.isStudent;
     this.isTeacher = AuthService.isTeacher;
     this.isAdmin = AuthService.isAdmin;
@@ -59,27 +62,33 @@ export class NavbarComponent implements OnInit {
       .then(response => response.json())
       .then(res => {
         if(!res.login) {
-                this.loginError = AuthService.loginError = res.errMsg;
-              } else {
-                localStorage.setItem('token', res.token);
-                AuthService.student = res.student;
-                AuthService.teacher = res.teacher;
-                this.isStudent = AuthService.isStudent = data.character === "student";
-                this.isTeacher = AuthService.isTeacher = data.character === "teacher";
-                this.loginError = AuthService.loginError = '';
-                sessionStorage.setItem('character', data.character);
-                if(this.isStudent){
-                  sessionStorage.setItem('characterData', JSON.stringify(res.student));
-                  this.socket.emit('joinStudentNotificationsRoom', AuthService.student._id)
-                  this.socket.emit('studentGoOnline', AuthService.student._id)
-                }
-                if(this.isTeacher){
-                  sessionStorage.setItem('characterData', JSON.stringify(res.teacher));
-                  this.socket.emit('joinTeacherNotificationsRoom', AuthService.teacher._id)
-                  this.socket.emit('teacherGoOnline', AuthService.teacher._id)
-                }
-                this.router.navigate(['/']);
-              }
+          this.loginError = AuthService.loginError = res.errMsg;
+        } else {
+          localStorage.setItem('token', res.token);
+          AuthService.student = res.student;
+          AuthService.teacher = res.teacher;
+          this.isStudent = AuthService.isStudent = data.character === "student";
+          this.isTeacher = AuthService.isTeacher = data.character === "teacher";
+          this.loginError = AuthService.loginError = '';
+          sessionStorage.setItem('character', data.character);
+          if(AuthService.isStudent){
+            sessionStorage.setItem('characterData', JSON.stringify(AuthService.student))
+            this.socket.emit('joinStudentNotificationsRoom', AuthService.student._id)
+            this.socket.emit('studentGoOnline', AuthService.student._id)
+            AuthService.student.enrolledCourses.forEach(course => this.socket.emit('joinCourseRoom', course.id));
+            this.gs.getStudentGrades(AuthService.student._id)
+            .then(res => res.json())
+            .then(response => {GradeService.studentGrades = response.grades})
+            .catch(err => {console.log(err)})
+          }
+          if(AuthService.isTeacher){
+            sessionStorage.setItem('characterData', JSON.stringify(AuthService.teacher))
+            this.socket.emit('joinTeacherNotificationsRoom', AuthService.teacher._id)
+            this.socket.emit('teacherGoOnline', AuthService.teacher._id)
+            AuthService.teacher.createdCourses.forEach(course => this.socket.emit('joinCourseRoom', course.id));
+          }
+          this.router.navigate(['/']);
+        }
       })
   }
 
@@ -94,6 +103,7 @@ export class NavbarComponent implements OnInit {
 
   resetPassword(form){
     if(form.value.email && form.value.character){
+      this.loginError = '';
       this.waiting = "Waiting...."
       this.as.resetPassword(form.value.email, form.value.character)
       .then(res => {
@@ -105,7 +115,7 @@ export class NavbarComponent implements OnInit {
           AuthService.resetPasswordCharacter = form.value.character;
           AuthService.resetPasswordEmail = form.value.email;
           AuthService.resetPasswordNumber = response.resetNumber;
-          AuthService.resetPasswordExpiredDate = response.expiredDAte;
+          AuthService.resetPasswordExpiredDate = response.expiredDate;
           this.toggleDropdown();
           this.router.navigate(['/reset-password']);
         }
@@ -120,7 +130,7 @@ export class NavbarComponent implements OnInit {
       })
     }
     else {
-      this.loginError = 'enter your email';
+      this.loginError = 'Enter your Email & Determine Are You Teacher or Student?';
     }
   }
 

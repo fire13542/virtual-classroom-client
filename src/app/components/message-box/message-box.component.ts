@@ -34,7 +34,6 @@ export class MessageBoxComponent implements OnInit {
   isMessageCollapsed = [];
 
   constructor(public ngZone: NgZone, private cs: CoursesService) {
-    this.socket = SocketService.socket;
     this.isStudent = AuthService.isStudent;
     this.isTeacher = AuthService.isTeacher;
     this.student = AuthService.student;
@@ -59,16 +58,20 @@ export class MessageBoxComponent implements OnInit {
     }
     this.setStudents();
     this.setTeachers();
+   }
+
+   ngOnInit(): void {
+    this.socket = SocketService.socket;
     this.socket.emit('getMessages', this.person);
     this.socket.on('messages', messages => {
-      ngZone.run(() => {
+      this.ngZone.run(() => {
         this.messages = messages.reverse();
         this.filterMessages('all');
         messages.forEach(message => this.isMessageCollapsed[message._id] = true)
       })
     });
     this.socket.on('newMessage', (msg) => {
-      ngZone.run(() => {
+      this.ngZone.run(() => {
         this.messages.unshift(msg); 
         this.isMessageCollapsed[msg._id] = true;
         if(msg.reciever.id === this.person.id){
@@ -76,9 +79,6 @@ export class MessageBoxComponent implements OnInit {
         }
       })
     })
-   }
-
-   ngOnInit(): void {
   }
 
    setStudents(){

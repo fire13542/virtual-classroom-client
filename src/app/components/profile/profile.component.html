@@ -19,11 +19,11 @@
             <br>
             <button (click)="edit()" class="btn btn-info ml-5">edit</button>
             <button (click)="changeNameAndEmail()" class="btn btn-primary ml-5">Change Name and Email</button><br><br>
-            <button (click)="edit()" class="btn btn-warning ml-5">Change Password</button><br>
+            <button (click)="resetPassword()" class="btn btn-warning ml-5">Change Password</button><br>
             <div *ngIf="waiting" class="alert alert-warning">{{ waiting }}</div>
         </div>
     </div>
 </div>
 <div class="text-center">
-    <button (click)="deleteAccount" class="btn btn-danger">Delete Account</button>
+    <button (click)="deleteAccount()" class="btn btn-danger">Delete Account</button>
 </div>

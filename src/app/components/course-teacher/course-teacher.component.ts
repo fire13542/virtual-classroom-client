@@ -27,7 +27,7 @@ export class CourseTeacherComponent implements OnInit {
   waiting: string = '';
 
   changeCourseCodeWaiting: string = '';
-  
+
   isCourseCodeCollapsed = true;
 
   isAnnouncementCollapsed = [];
@@ -79,6 +79,10 @@ export class CourseTeacherComponent implements OnInit {
       CoursesService.course = response.course;
       sessionStorage.setItem('course', JSON.stringify(response.course));
     })
+  }
+
+  goToStudentsPage(){
+    this.router.navigate(['/students-of-course']);
   }
 
   image;
@@ -240,11 +244,11 @@ export class CourseTeacherComponent implements OnInit {
   addAnnouncement(form){
     let data = form.value;
     let announcement = {
-      courseId: this.course._id, 
+      courseId: this.course._id,
       courseName: this.course.name,
-      title: data.title, 
-      description: data.description, 
-      fromDate: data.fromDate, 
+      title: data.title,
+      description: data.description,
+      fromDate: data.fromDate,
       toDate: data.toDate
     }
     this.waiting = 'waiting.....'

@@ -18,10 +18,12 @@ export class LessonTeacherComponent implements OnInit {
   teacher;
   course;
   lesson;
+  lessonVideo = '';
   comments;
 
   isFileDropdown: boolean = false;
   isLinkDropdown: boolean = false;
+  waitingVideo: string = '';
   waitingFile: string = '';
   waitingLink: string = '';
 
@@ -40,6 +42,8 @@ export class LessonTeacherComponent implements OnInit {
       this.lesson = LessonService.lesson;
     }
 
+    this.setLessonVideo();
+
     this.getDiscussionComments();
     
     this.socket.emit('joinLessonRoom', this.lesson._id);
@@ -47,6 +51,18 @@ export class LessonTeacherComponent implements OnInit {
    }
 
   ngOnInit(): void { 
+  }
+
+  setLessonVideo(){
+    if(this.lesson.screen){
+      this.lessonVideo = LessonService.API_URL + 
+                          this.course.teacherId+"/"+
+                          this.course.name+"/"+this.lesson.name+"/"+
+                          this.lesson.screen;
+    }
+    else {
+      this.lessonVideo = '';
+    }
   }
 
   deleteLesson(){
@@ -99,22 +115,90 @@ export class LessonTeacherComponent implements OnInit {
     
   }
 
-  @ViewChild('video') video: ElementRef
+  // @ViewChild('video') video: ElementRef
 
-  async showVideo(){
-        let mediaDevices = navigator.mediaDevices as any;
-        try {
-          // let stream = await mediaDevices.getDisplayMedia({ video: true, audio: true });
-          // this.video.nativeElement.srcObject = stream;
-          // console.log(stream)
-          // let u = URL.createObjectURL(stream);
-          // console.log(u);
-          // this.socket.emit('video', )
-        } catch (error) {
+  // async showVideo(){
+  //       let mediaDevices = navigator.mediaDevices as any;
+  //       try {
+
+  //         // let stream = await mediaDevices.getDisplayMedia({ video: true, audio: true });
+  //         // this.video.nativeElement.srcObject = stream;
+  //         // console.log(stream)
+  //         // let u = URL.createObjectURL(stream);
+  //         // console.log(u);
+  //         // this.socket.emit('video', )
+  //       } catch (error) {
           
-        }
+  //       }
+  // }
+
+  addVideo(video){
+    this.waitingVideo = 'waiting.....'
+    const formData = new FormData();
+    formData.append('lessonId', this.lesson._id);
+    formData.append('teacherId', AuthService.teacher._id);
+    formData.append('courseName', CoursesService.course.name);
+    formData.append('lessonName',this.lesson.name);
+    formData.append('screen', video);
+    
+    fetch(LessonService.API_URL + 'lesson/addScreen', {
+      method: 'POST',
+      headers: {token: localStorage.getItem('token')},
+      body: formData
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(response => {
+      if(response.screenAdded){
+        this.lesson.screen = response.screenName;
+        LessonService.lesson = this.lesson;
+        this.setLessonVideo();
+        sessionStorage.setItem('lesson', this.lesson);
+      }
+      else {
+        alert(response.errMsg);
+      }
+      this.waitingVideo = '';
+    })
+    .catch(err => {
+      alert(err)
+    })
   }
 
+  deleteVideo(screenName){
+    let lessonData = {
+        lessonId: this.lesson._id,
+        teacherId: this.course.teacherId,
+        courseName: this.course.name,
+        lessonName: this.lesson.name
+    }
+    fetch(LessonService.API_URL + 'lesson/deleteScreen', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json' ,token: localStorage.getItem('token')},
+      body: JSON.stringify({
+        lessonData, screenName
+      })
+    })
+    .then(res => {
+      return res.json();
+    })
+    .then(response => {
+      if(response.screenDeleted){
+        this.lesson.screen = '';
+        LessonService.lesson = this.lesson;
+        this.setLessonVideo();
+        sessionStorage.setItem('lesson', this.lesson);
+      }
+      else {
+        alert(response.errMsg);
+      }
+    })
+    .catch(err => {
+      console.log(err);
+      alert(err)
+    })
+  }
 
   toggleFileDropdown(){
     this.isFileDropdown = !this.isFileDropdown;
@@ -127,6 +211,10 @@ export class LessonTeacherComponent implements OnInit {
   }
 
   addFile(){
+    if(!this.file){
+      alert('select a file to upload');
+      return;
+    }
     this.waitingFile = 'waiting.....'
     const formData = new FormData();
     formData.append('lessonId', this.lesson._id);
@@ -200,7 +288,7 @@ export class LessonTeacherComponent implements OnInit {
     })
     .then(response => {
       if(response.fileRemoved){
-        this.lesson.files.filter(file => file !== filename);
+        this.lesson.files = this.lesson.files.filter(file => file !== filename);
         LessonService.lesson = this.lesson;
         sessionStorage.setItem('lesson', this.lesson);
       }
@@ -221,6 +309,10 @@ export class LessonTeacherComponent implements OnInit {
   statement;
   linkUrl;
   addLink(){
+    if(!this.statement || !this.linkUrl){
+      alert('enter link data');
+      return;
+    }
     this.waitingLink = 'waiting';
     let link = {statement: this.statement, link: this.linkUrl};
     this.ls.addLink(this.lesson._id, link)

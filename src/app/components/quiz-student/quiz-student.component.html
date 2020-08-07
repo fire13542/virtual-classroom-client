@@ -24,13 +24,13 @@
         </div>
         <br>
         <div class="align-middle">
-            <span class="mx-1">you choose:</span> 
+            <span class="mx-1">you choose:</span>
             <span class="alert alert-success">{{ answers[i] }}</span>
         </div>
     </div>
 </div>
 
-<div *ngIf="quizRunning && quiz.questions" class="card w-75 h-auto mt-5 mx-auto">
+<div *ngIf="quizRunning && quiz.questions && !quizMessage" class="card w-75 h-auto mt-5 mx-auto">
     <button (click)="finishQuiz()" class="btn btn-primary">I Finish The Quiz</button>
 </div>
 

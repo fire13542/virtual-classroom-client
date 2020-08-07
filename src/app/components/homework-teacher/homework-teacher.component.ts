@@ -111,6 +111,10 @@ export class HomeworkTeacherComponent implements OnInit {
   }
 
   addFile(){
+    if(!this.file){
+      alert('select a file to upload');
+      return;
+    }
     this.waitingFile = 'waiting.....'
     const formData = new FormData();
     formData.append('homeworkId', this.homework._id);
@@ -175,7 +179,7 @@ export class HomeworkTeacherComponent implements OnInit {
     }
     fetch(HomeworkService.API_URL + 'homework/removeFile', {
       method: 'POST',
-      headers: {'Content-Type': 'application/json' ,token: localStorage.getItem('token')},
+      headers: {'Content-Type': 'application/json', token: localStorage.getItem('token')},
       body: JSON.stringify({
         homeworkData, filename
       })
@@ -185,7 +189,7 @@ export class HomeworkTeacherComponent implements OnInit {
     })
     .then(response => {
       if(response.fileRemoved){
-        this.homework.files.filter(file => file !== filename);
+        this.homework.files = this.homework.files.filter(file => file !== filename);
         HomeworkService.homework = this.homework;
         sessionStorage.setItem('homework', this.homework);
       }
@@ -206,6 +210,10 @@ export class HomeworkTeacherComponent implements OnInit {
   statement;
   linkUrl;
   addLink(){
+    if(!this.statement || !this.linkUrl){
+      alert('enter link data');
+      return;
+    }
     this.waitingLink = 'waiting';
     let link = {statement: this.statement, link: this.linkUrl};
     this.hs.addLink(this.homework._id, link)
@@ -283,6 +291,7 @@ export class HomeworkTeacherComponent implements OnInit {
       comment: comment
     }
     this.socket.emit('newComment', data);
+    this.commentContent = '';
   }
 
 }

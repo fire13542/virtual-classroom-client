@@ -6,10 +6,10 @@
     </div>
 </div>
 
-<div *ngIf="lesson.screen" class="card w-75 h-75 my-2 mx-auto">
-    <h2 class="text-center">Video</h2>
-    <div class="card-body w-75 text-center"> <!--*ngIf="lesson.screen"-->
-        <video #video src="" autoplay controls class="w-100 h-auto mx-auto"></video>
+<div *ngIf="lessonVideo" class="card w-75 h-75 my-2 mx-auto">
+    <h2 class="text-center">Lesson Video</h2>
+    <div class="card-body w-100 text-center mx-auto">
+        <video #video [src]="lessonVideo" controls class="w-100 h-75 mx-auto"></video>
     </div>
 </div>
 

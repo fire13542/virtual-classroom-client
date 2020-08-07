@@ -16,9 +16,9 @@ export class StudentsOfCourseComponent implements OnInit {
     this.students = CoursesService.course.members;
     this.students = this.students.map(student => {
       return {
-        id: student.id, 
-        name: student.name, 
-        image: CoursesService.API_URL+'studentsImages/'+student.images
+        id: student.id,
+        name: student.name,
+        image: CoursesService.API_URL+'students-images/'+student.image
       }
     })
   }

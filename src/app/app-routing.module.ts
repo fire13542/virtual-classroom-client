@@ -48,7 +48,7 @@ const routes: Routes = [
   { path: 'upload-images', component: UploadImagesComponent, canActivate: [AdminGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: 'messages-box', component: MessageBoxComponent, canActivate: [AuthGuard] },
-  { path: 'reset-password', component: ResetPasswordComponent, canActivate: [AuthGuard] },
+  { path: 'reset-password', component: ResetPasswordComponent },
   { path: 'student-courses', component: CoursesStudentComponent, canActivate: [StudentGuard] },
   { path: 'teacher-courses', component: CoursesTeacherComponent, canActivate: [TeacherGuard] },
   { path: 'student-course/:id', component: CourseStudentComponent, canActivate: [StudentGuard] },

@@ -78,7 +78,7 @@ export class QuizStudentComponent implements OnInit {
         if(response.questions){
           this.quiz.questions = response.questions;
           setTimeout(() => {this.finishQuiz()}, new Date(this.quiz.quizEnd).getTime() - Date.now());
-          setTimeout(() => {console.log('finish')}, new Date(this.quiz.quizEnd).getTime() - Date.now());
+          // setTimeout(() => {console.log('finish')}, new Date(this.quiz.quizEnd).getTime() - Date.now());
         }
         else {
           this.getGrade();
@@ -102,6 +102,7 @@ export class QuizStudentComponent implements OnInit {
   }
 
   finishQuiz(){
+    clearTimeout();
     let q = {
       id: this.quiz._id,
       name: this.quiz.quizName, 

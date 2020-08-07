@@ -40,7 +40,6 @@ export class ProfileComponent implements OnInit {
       this.teacher = AuthService.teacher;
       this.characterData = this.teacher;
       this.image = this.API_URL + 'teachers-images/' + this.characterData.image;
-      console.log(this.image)
     }
     this.name = this.characterData.name;
     this.email = this.characterData.email;
@@ -75,6 +74,9 @@ export class ProfileComponent implements OnInit {
           this.student.image = response.imageName;
           this.characterData.image = response.imageName;
           this.image = this.API_URL + 'students-images/' + response.imageName;
+          this.updateErrorMsg = '';
+          AuthService.student = this.student;
+          sessionStorage.setItem('characterData', JSON.stringify(this.student));
         }
         else {
           this.updateErrorMsg = response.errMsg;
@@ -86,7 +88,7 @@ export class ProfileComponent implements OnInit {
     }
     // --------------if is teacher---------------
     if(AuthService.isTeacher){
-      formData.append('teacherId', this.student._id);
+      formData.append('teacherId', this.teacher._id);
       formData.append('image', this.imageFile);
       fetch(this.API_URL+'teacher/image', {
         method: 'post', 
@@ -101,6 +103,9 @@ export class ProfileComponent implements OnInit {
           this.teacher.image = response.imageName;
           this.characterData.image = response.imageName;
           this.image = this.API_URL + 'teachers-images/' + response.imageName;
+          this.updateErrorMsg = '';
+          AuthService.teacher = this.teacher;
+          sessionStorage.setItem('characterData', JSON.stringify(this.teacher));
         }
         else {
           this.updateErrorMsg = response.errMsg;
@@ -120,8 +125,8 @@ export class ProfileComponent implements OnInit {
         headers: {'Content-Type': 'application/json', token: localStorage.getItem('token')},
         body: JSON.stringify({
           studentId: this.student._id,
-          name: this.student.name,
-          email: this.student.email
+          name: this.name,
+          email: this.email
         })
       })
       .then(res => {
@@ -130,9 +135,11 @@ export class ProfileComponent implements OnInit {
       .then(response => {
         if(response.update){
           this.student = response.student;
-          this.characterData = this.student;
-          this.name = this.student.name;
-          this.email = this.student.email;
+          this.student.name = this.name,
+          this.student.email = this.email,
+          AuthService.student = this.student,
+          sessionStorage.setItem('student', JSON.stringify(this.student));
+          this.readOnly = true;
         }
         else {
           this.updateErrorMsg = response.errMsg;
@@ -149,8 +156,8 @@ export class ProfileComponent implements OnInit {
         headers: {'Content-Type': 'application/json', token: localStorage.getItem('token')},
         body: JSON.stringify({
           teacherId: this.teacher._id,
-          name: this.teacher.name,
-          email: this.teacher.email
+          name: this.name,
+          email: this.email
         })
       })
       .then(res => {
@@ -159,9 +166,11 @@ export class ProfileComponent implements OnInit {
       .then(response => {
         if(response.update){
           this.teacher = response.teacher;
-          this.characterData = this.teacher;
-          this.name = this.teacher.name;
-          this.email = this.teacher.email;
+          this.teacher.name = this.name,
+          this.teacher.email = this.email,
+          AuthService.teacher = this.teacher,
+          sessionStorage.setItem('teacher', JSON.stringify(this.teacher));
+          this.readOnly = true;
         }
         else {
           this.updateErrorMsg = response.errMsg;
@@ -186,7 +195,7 @@ export class ProfileComponent implements OnInit {
           AuthService.resetPasswordCharacter = this.character;
           AuthService.resetPasswordEmail = this.email;
           AuthService.resetPasswordNumber = response.resetNumber;
-          AuthService.resetPasswordExpiredDate = response.expiredDAte;
+          AuthService.resetPasswordExpiredDate = response.expiredDate;
           this.router.navigate(['/reset-password']);
         }
         else {

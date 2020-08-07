@@ -9,6 +9,7 @@
         <input ngModel type="date" name="quizEndDate" class="form-control" required>
         <input ngModel type="time" name="quizEndTime" class="form-control" required>
         <div class="card w-75 h-auto mt-5 mx-auto">
+            <div class="alert alert-warning">Do Not Foget to add questions berfore clicking Create Quiz</div>
             <button [disabled]="quizForm.invalid" class="btn btn-primary">Create Quiz</button>
         </div>
     </form>

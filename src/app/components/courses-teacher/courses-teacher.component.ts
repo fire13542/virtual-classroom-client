@@ -20,13 +20,13 @@ export class CoursesTeacherComponent implements OnInit {
 
   announcements = [];
   announcementsNumbers = [];
-  
+
   isDropdown: boolean = false;
   waiting: string = '';
   createCourseError: string = '';
 
   isCourseCodeCollapsed = true;
-  
+
   constructor(public ngZone: NgZone, private cs: CoursesService, private router: Router) {
     this.socket = SocketService.socket;
     this.teacher = AuthService.teacher;
@@ -50,7 +50,7 @@ export class CoursesTeacherComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    
+
   }
 
   getAnnouncements(){

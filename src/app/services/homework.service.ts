@@ -51,7 +51,7 @@ export class HomeworkService {
   }
 
   rmoveLink(homeworkId, link){
-    return fetch(this.API_URL+'homework/rmoveLink', {
+    return fetch(this.API_URL+'homework/removeLink', {
       method: 'post',
       headers: {'Content-Type': 'application/json', token: localStorage.getItem('token')},
       body: JSON.stringify({

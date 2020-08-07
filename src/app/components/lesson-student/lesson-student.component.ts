@@ -18,6 +18,7 @@ export class LessonStudentComponent implements OnInit {
   student;
   course;
   lesson;
+  lessonVideo = '';
   comments;
 
   constructor(public ngZone: NgZone, private ls: LessonService) {
@@ -35,6 +36,8 @@ export class LessonStudentComponent implements OnInit {
       this.lesson = LessonService.lesson;
     }
 
+    this.setLessonVideo();
+    
     this.getDiscussionComments();
     
     this.socket.emit('joinLessonRoom', this.lesson._id);
@@ -42,6 +45,18 @@ export class LessonStudentComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  setLessonVideo(){
+    if(this.lesson.screen){
+      this.lessonVideo = LessonService.API_URL + 
+                          this.course.teacherId+"/"+
+                          this.course.name+"/"+this.lesson.name+"/"+
+                          this.lesson.screen;
+    }
+    else {
+      this.lessonVideo = '';
+    }
   }
 
   getDiscussionComments(){
@@ -72,21 +87,21 @@ export class LessonStudentComponent implements OnInit {
     
   }
 
-  @ViewChild('video') video: ElementRef
+  // @ViewChild('video') video: ElementRef
 
-  async showVideo(){
-        let mediaDevices = navigator.mediaDevices as any;
-        try {
-          // let stream = await mediaDevices.getDisplayMedia({ video: true, audio: true });
-          // this.video.nativeElement.srcObject = stream;
-          // console.log(stream)
-          // let u = URL.createObjectURL(stream);
-          // console.log(u);
-          // this.socket.emit('video', )
-        } catch (error) {
+  // async showVideo(){
+  //       let mediaDevices = navigator.mediaDevices as any;
+  //       try {
+  //         // let stream = await mediaDevices.getDisplayMedia({ video: true, audio: true });
+  //         // this.video.nativeElement.srcObject = stream;
+  //         // console.log(stream)
+  //         // let u = URL.createObjectURL(stream);
+  //         // console.log(u);
+  //         // this.socket.emit('video', )
+  //       } catch (error) {
           
-        }
-  }
+  //       }
+  // }
 
   downloadFile(filename){
     let body = {

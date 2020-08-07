@@ -1,6 +1,7 @@
 <div class="text-center">
     <div class="btn-group" role="group">
         <button (click)="setSubject('')" type="button" class="btn btn-info">All</button>
+        <button (click)="setSubject('notRead')" type="button" class="btn btn-info">not read</button>
         <button (click)="setSubject('read')" type="button" class="btn btn-info">read</button>
         <button (click)="setSubject('problem')" type="button" class="btn btn-info">Problem</button>
         <button (click)="setSubject('help')" type="button" class="btn btn-info">Help</button>
@@ -8,7 +9,7 @@
     </div>
 </div>
 
-<div *ngFor="let contact of contactsArray" class="card w-50 h-75 my-5 mx-auto">
+<div *ngFor="let contact of contactsArray.reverse()" class="card w-50 h-75 my-5 mx-auto">
     <div class="card-body">
         <h4 class="card-title">Sender Name: {{ contact.senderName }}</h4>
         <h4 class="card-title">Sender Email: {{ contact.senderEmail }}</h4>
@@ -19,6 +20,6 @@
         <p class="card-text"><small class="text-muted">sent in {{ contact.sendDate }}</small></p>
         <br>
         <button *ngIf="!contact.read" (click)="read($event, contact)" class="btn btn-secondary">Read OK</button>
-        <img class="w-25" *ngIf="contact.read" src="../../../assets/images/read.png">
+        <img width="10%" *ngIf="contact.read" src="../../../assets/images/read.png">
     </div>
 </div>

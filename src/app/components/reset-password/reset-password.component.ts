@@ -16,6 +16,8 @@ export class ResetPasswordComponent implements OnInit {
 
   resetError: string = '';
 
+  newPassword = '';
+
   constructor(private router: Router, private as: AuthService) { }
 
   ngOnInit(): void {
@@ -31,8 +33,8 @@ export class ResetPasswordComponent implements OnInit {
         }
   }
 
-  changePassword(newPassword){
-    this.as.changePassword(AuthService.resetPasswordCharacter, AuthService.resetPasswordEmail, newPassword)
+  changePassword(){
+    this.as.changePassword(AuthService.resetPasswordCharacter, AuthService.resetPasswordEmail, this.newPassword)
     .then(res => {
       return res.json();
     })
