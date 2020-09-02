@@ -8,7 +8,10 @@ import * as io from 'socket.io-client';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { SocketService } from './services/socket.service';
-import * as youtube from 'youtube-api';
+import { resolve } from 'dns';
+import { rejects } from 'assert';
+import { async } from '@angular/core/testing';
+// import * as youtube from 'youtube-api';
 
 @Component({
   selector: 'app-root',
@@ -22,19 +25,40 @@ export class AppComponent {
     title.setTitle('O-Class');
     meta.updateTag({name: 'description', content: 'O-Class is a web application that help teacher to create virtual classroom environment to make education process easier, more efficiant and more entertaining'})
     // this.socket = io(SocketService.API_URL);
-    this.ngZone.runOutsideAngular(async () => {
-      this.socket = await io(SocketService.API_URL);
-      SocketService.socket = this.socket;
-    })
+
   }
 
   async initSocket(){
-    this.socket = await io(SocketService.API_URL);
-    SocketService.socket = this.socket;
+    return new Promise((resolve, rejects) => {
+      let socket = io(SocketService.API_URL);
+      if(!socket) rejects('socket error')
+      resolve(socket)
+    })
   }
+
+  runInitSocket(){
+    this.ngZone.runOutsideAngular(() => {
+      this.initSocket()
+      .then(socket => SocketService.socket = socket)
+      .catch(console.log)
+    })
+  }
+
 
   ngOnInit(){
     // SocketService.socket = this.socket;
+    this.ngZone.runOutsideAngular(() => {
+      this.initSocket()
+      .then(socket => {
+        SocketService.socket = socket;
+        this.socket = socket;
+        this.init();
+      })
+      .catch(console.log)
+    })
+  }
+
+  init(){
     if(isPlatformBrowser(this.platformId)){
       if(sessionStorage.length){
         AuthService.isAdmin = sessionStorage.getItem('character') === 'admin';
