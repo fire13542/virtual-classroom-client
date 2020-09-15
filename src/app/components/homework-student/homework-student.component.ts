@@ -62,7 +62,6 @@ export class HomeworkStudentComponent implements OnInit {
       else {
         this.comments = response.comments;
       }
-      console.log(this.comments)
     })
     .catch(err => {
       alert(err);

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { SocketService } from 'src/app/services/socket.service';
 import { GradeService } from 'src/app/services/grade.service';
-import { stdout } from 'process';
+import * as io from 'socket.io-client';
 
 
 
@@ -28,14 +28,28 @@ export class NavbarComponent implements OnInit {
   waiting: string = '';
 
   constructor(public ngZone: NgZone, private router: Router, private as: AuthService, private gs: GradeService) {
-    
+    this.ngZone.runOutsideAngular(() => {
+      this.initSocket()
+      .then(socket => {
+        this.socket = socket;
+      })
+      .catch(console.log)
+    }) 
    }
 
   ngOnInit(): void {
-    this.socket = SocketService.socket;
+    // this.socket = SocketService.socket;
     this.isStudent = AuthService.isStudent;
     this.isTeacher = AuthService.isTeacher;
     this.isAdmin = AuthService.isAdmin;
+  }
+
+  async initSocket(){
+    return new Promise((resolve, rejects) => {
+      let socket = io(SocketService.API_URL);
+      if(!socket) rejects('socket error')
+      resolve(socket)
+    })
   }
 
   ngDoCheck(): void {

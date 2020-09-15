@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-contact-us',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactUsComponent implements OnInit {
 
-  API_URL ='http://localhost:3000/';
+  API_URL = ApiService.API_URL;
 
   messageSent: boolean = false;
   messageError: boolean = false;

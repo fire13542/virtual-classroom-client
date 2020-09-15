@@ -22,7 +22,15 @@ export class AppComponent {
     title.setTitle('O-Class');
     meta.updateTag({name: 'description', content: 'O-Class is a web application that help teacher to create virtual classroom environment to make education process easier, more efficiant and more entertaining'})
     // this.socket = io(SocketService.API_URL);
-
+    this.ngZone.runOutsideAngular(() => {
+      this.initSocket()
+      .then(socket => {
+        SocketService.socket = socket;
+        this.socket = socket;
+        this.init();
+      })
+      .catch(console.log)
+    })
   }
 
   async initSocket(){
@@ -44,15 +52,15 @@ export class AppComponent {
 
   ngOnInit(){
     // SocketService.socket = this.socket;
-    this.ngZone.runOutsideAngular(() => {
-      this.initSocket()
-      .then(socket => {
-        SocketService.socket = socket;
-        this.socket = socket;
-        this.init();
-      })
-      .catch(console.log)
-    })
+    // this.ngZone.runOutsideAngular(() => {
+    //   this.initSocket()
+    //   .then(socket => {
+    //     SocketService.socket = socket;
+    //     this.socket = socket;
+    //     this.init();
+    //   })
+    //   .catch(console.log)
+    // })
   }
 
   init(){

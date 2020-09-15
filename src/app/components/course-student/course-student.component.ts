@@ -117,7 +117,6 @@ export class CourseStudentComponent implements OnInit {
     })
     .then(response => {
       if(response.lesson){
-        console.log(response.lesson)
         LessonService.lesson = response.lesson;
         sessionStorage.setItem('lesson', JSON.stringify(response.lesson));
         this.router.navigate(['/student-lesson']);
