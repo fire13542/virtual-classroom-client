@@ -2,7 +2,7 @@
 <div class="card w-50 h-75 my-5 mx-auto">
     <div class="card-body text-center">
       <h1 class="card-title">{{ homework.name }}</h1>
-      <p class="card-text"><small class="text-muted">{{ homework.createDate }}</small></p>
+      <p class="card-text"><small class="text-muted">{{ homework.createDate | date:'medium' }}</small></p>
     </div>
 </div>
 
@@ -45,7 +45,7 @@
             [class.bg-light]="comment.sender.id != student._id" 
             [class.float-right]="comment.sender.id != student._id" 
             class="w-75 border border-dark rounded m-2 p-1">
-            <span class="text-secondary" [class.text-light]="comment.sender.id == student._id">{{ comment.sender.name }} - {{ comment.timestamp }}</span>
+            <span class="text-secondary" [class.text-light]="comment.sender.id == student._id">{{ comment.sender.name }} - {{ comment.timestamp | date:'short' }}</span>
             <br>
             <span class="text-dark">{{ comment.content }}</span>
         </div>

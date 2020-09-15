@@ -4,7 +4,7 @@
         <h1 class="text-center">{{ blog.title }}</h1>
         <br>
         <hr>
-        <p class="card-text text-center"><small class="text-muted">{{ blog.createDate }}</small></p>
+        <p class="card-text text-center"><small class="text-muted">{{ blog.createDate | date:'medium' }}</small></p>
         <hr>
         <br>
         <div [innerHTML]="blog.content">

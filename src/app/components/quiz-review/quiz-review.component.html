@@ -3,8 +3,8 @@
     <h2>{{ quiz.quizName }}</h2>
     <h3>Max Grade: {{ quiz.maxGrade }}</h3>
     <h3>Date & Time</h3>
-    <h3>{{ quiz.quizDate }}</h3>
-    <h3>{{ quiz.quizEnd }}</h3>
+    <h3>{{ quiz.quizDate | date:'medium' }}</h3>
+    <h3>{{ quiz.quizEnd | date:'medium' }}</h3>
     <div class="text-center">
       <button (click)="deleteQuiz()" class="btn btn-danger m-1">Delete Quiz</button>
     </div>

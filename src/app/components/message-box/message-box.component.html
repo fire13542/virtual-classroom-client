@@ -41,7 +41,7 @@
       <button type="button" class="btn btn-outline-success w-100 my-2" (click)="isMessageCollapsed[message._id] = !isMessageCollapsed[message._id]">
           subject: {{ message.subject }} <br>
           sender: {{ message.sender.name }} <br>
-          date: {{ message.timestamp }}
+          date: {{ message.timestamp | date:'short' }}
       </button>
       <div [ngbCollapse]="isMessageCollapsed[message._id]">
           <div class="alert alert-success">{{ message.content }}</div>

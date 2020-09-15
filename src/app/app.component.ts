@@ -8,9 +8,6 @@ import * as io from 'socket.io-client';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
 import { SocketService } from './services/socket.service';
-import { resolve } from 'dns';
-import { rejects } from 'assert';
-import { async } from '@angular/core/testing';
 // import * as youtube from 'youtube-api';
 
 @Component({

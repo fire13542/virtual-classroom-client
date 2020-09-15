@@ -17,7 +17,7 @@
         <hr>
         <p class="card-text">{{ contact.messageContent }}</p>
         <hr>
-        <p class="card-text"><small class="text-muted">sent in {{ contact.sendDate }}</small></p>
+        <p class="card-text"><small class="text-muted">sent in {{ contact.sendDate | date:'short' }}</small></p>
         <br>
         <button *ngIf="!contact.read" (click)="read($event, contact)" class="btn btn-secondary">Read OK</button>
         <img width="10%" *ngIf="contact.read" src="../../../assets/images/read.png">

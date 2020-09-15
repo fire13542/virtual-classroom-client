@@ -41,8 +41,6 @@ import { QuizTeacherComponent } from './components/quiz-teacher/quiz-teacher.com
 import { StudentsOfCourseComponent } from './components/students-of-course/students-of-course.component';
 import { MessageBoxComponent } from './components/message-box/message-box.component';
 import { ReciveContactUsComponent } from './components/recive-contact-us/recive-contact-us.component';
-import { GradesQuizComponent } from './components/grades-quiz/grades-quiz.component';
-import { GradesStudentComponent } from './components/grades-student/grades-student.component';
 import { QuizReviewComponent } from './components/quiz-review/quiz-review.component';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -80,8 +78,6 @@ import { HttpClientModule } from '@angular/common/http';
     StudentsOfCourseComponent,
     MessageBoxComponent,
     ReciveContactUsComponent,
-    GradesQuizComponent,
-    GradesStudentComponent,
     QuizReviewComponent
   ],
   imports: [
