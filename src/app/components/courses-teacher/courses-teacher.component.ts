@@ -91,6 +91,7 @@ export class CoursesTeacherComponent implements OnInit {
         if(response.courseCreated){
           AuthService.teacher = response.teacher;
           this.teacher = response.teacher;
+          sessionStorage.setItem('characterData', JSON.stringify(AuthService.teacher))
           this.courses = this.teacher.createdCourses;
           this.waiting = '';
           this.createCourseError = '';
@@ -123,6 +124,7 @@ export class CoursesTeacherComponent implements OnInit {
       if(response.courseDeleted){
         AuthService.teacher = response.teacher;
         this.teacher = AuthService.teacher;
+        sessionStorage.setItem('characterData', JSON.stringify(AuthService.teacher))
         this.courses = this.teacher.createdCourses;
         this.course = null;
         this.router.navigate['/teacher-courses'];

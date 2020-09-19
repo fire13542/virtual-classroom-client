@@ -213,6 +213,15 @@ export class ProfileComponent implements OnInit {
     }
   }
 
+  logout(){
+    AuthService.isStudent = false;
+    AuthService.isTeacher = false;
+    AuthService.isAdmin = false;
+    localStorage.removeItem('token');
+    sessionStorage.clear();
+    this.router.navigate(['/']);
+  }
+
   deleteAccount(){
     let sure = confirm('are you sure you want to delete your Account in O-class???');
     if(!sure) return;
@@ -222,7 +231,7 @@ export class ProfileComponent implements OnInit {
         method: 'delete', 
         headers: {'Content-Type': 'application/json', token: localStorage.getItem('token')},
         body: JSON.stringify({
-          studentId: this.student._id
+          student: this.student
         })
       })
       .then(res => {
@@ -231,7 +240,7 @@ export class ProfileComponent implements OnInit {
       .then(response => {
         if(response.delete){
           alert('account deleted');
-          this.router.navigate(['/']);
+          this.logout()
         }
         else {
           alert('an error occured, try again....');
@@ -247,9 +256,7 @@ export class ProfileComponent implements OnInit {
         method: 'delete', 
         headers: {'Content-Type': 'application/json', token: localStorage.getItem('token')},
         body: JSON.stringify({
-          teacherId: this.teacher._id,
-          name: this.teacher.name,
-          email: this.teacher.email
+          teacher: this.teacher
         })
       })
       .then(res => {
@@ -258,7 +265,7 @@ export class ProfileComponent implements OnInit {
       .then(response => {
         if(response.delete){
           alert('account deleted');
-          this.router.navigate(['/']);
+          this.logout()
         }
         else {
           alert('an error occured, try again....')

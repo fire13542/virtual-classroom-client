@@ -95,6 +95,8 @@ export class CoursesStudentComponent implements OnInit {
         this.waiting = '';
         this.toggleDropdown();
         this.student.enrolledCourses.push(response.course);
+        AuthService.student = this.student
+        sessionStorage.setItem('characterData', JSON.stringify(AuthService.student))
       }
       else {
         alert(response.errMsg);
