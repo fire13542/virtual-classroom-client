@@ -64,6 +64,7 @@ export class CourseStudentComponent implements OnInit {
     })
     .then(response => {
       this.course = response.course;
+      SocketService.socket.emit('joinCourseRoom', this.course._id)
       this.courseImage = CoursesService.API_URL + 'courses-images/' + this.course.image;
       this.course.courseCode = '';
       this.announcements = CoursesService.announcements.filter(announcement => announcement.courseId == this.course._id.toString());

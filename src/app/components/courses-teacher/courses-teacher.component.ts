@@ -107,6 +107,7 @@ export class CoursesTeacherComponent implements OnInit {
   setCourse(course){
     course.image = CoursesService.API_URL + 'courses-images/' + course.image;
     this.course = course;
+    SocketService.socket.emit('joinCourseRoom', course.id)
   }
 
   goToCoursePage(){

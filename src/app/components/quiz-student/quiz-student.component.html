@@ -3,7 +3,7 @@
     <h2>{{ quiz.quizName }}</h2>
     <h3>Max Grade: {{ quiz.maxGrade }}</h3>
     <h3>{{ quiz.quizDate | date:'medium' }}</h3>
-    <h3>{{ quiz.quizEnd | date:'short' }}</h3>
+    <h3>{{ quiz.quizEnd | date:'medium' }}</h3>
 </div>
 
 <div *ngFor="let question of quiz.questions, index as i" class="card w-75 h-auto mt-5 mx-auto">

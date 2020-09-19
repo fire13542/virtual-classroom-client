@@ -71,9 +71,9 @@ export class AppComponent {
         AuthService.isTeacher = sessionStorage.getItem('character') === 'teacher';
         if(AuthService.isStudent){
           AuthService.student = JSON.parse(sessionStorage.getItem('characterData'));
-          this.socket.emit('joinStudentNotificationsRoom', AuthService.student._id)
-          this.socket.emit('studentGoOnline', AuthService.student._id)
-          AuthService.student.enrolledCourses.forEach(course => this.socket.emit('joinCourseRoom', course.id));
+          // this.socket.emit('joinStudentNotificationsRoom', AuthService.student._id)
+          // this.socket.emit('studentGoOnline', AuthService.student._id)
+          // AuthService.student.enrolledCourses.forEach(course => SocketService.socket.emit('joinCourseRoom', course.id));
           this.gs.getStudentGrades(AuthService.student._id)
           .then(res => res.json())
           .then(response => {GradeService.studentGrades = response.grades})
@@ -81,9 +81,9 @@ export class AppComponent {
         }
         if(AuthService.isTeacher){
           AuthService.teacher = JSON.parse(sessionStorage.getItem('characterData'));
-          this.socket.emit('joinTeacherNotificationsRoom', AuthService.teacher._id)
-          this.socket.emit('teacherGoOnline', AuthService.teacher._id)
-          AuthService.teacher.createdCourses.forEach(course => this.socket.emit('joinCourseRoom', course.id));
+          // this.socket.emit('joinTeacherNotificationsRoom', AuthService.teacher._id)
+          // this.socket.emit('teacherGoOnline', AuthService.teacher._id)
+          // AuthService.teacher.createdCourses.forEach(course => SocketService.socket.emit('joinCourseRoom', course.id));
         }
         CoursesService.course = JSON.parse(sessionStorage.getItem('course'));
         CoursesService.announcements = sessionStorage.getItem('announcements') ? JSON.parse(sessionStorage.getItem('announcements')) : [];

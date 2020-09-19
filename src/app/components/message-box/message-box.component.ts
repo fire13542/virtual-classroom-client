@@ -46,6 +46,8 @@ export class MessageBoxComponent implements OnInit {
         image: this.student.image,
         character: 'student'
       }
+      SocketService.socket.emit('joinStudentNotificationsRoom', AuthService.student._id)
+      SocketService.socket.emit('studentGoOnline', AuthService.student._id)
     }
     else if(this.isTeacher){
       this.courses = this.teacher.createdCourses;
@@ -55,6 +57,8 @@ export class MessageBoxComponent implements OnInit {
         image: this.teacher.image,
         character: 'teacher'
       }
+      SocketService.socket.emit('joinTeacherNotificationsRoom', AuthService.teacher._id)
+      SocketService.socket.emit('teacherGoOnline', AuthService.teacher._id)
     }
     this.setStudents();
     this.setTeachers();
@@ -98,7 +102,7 @@ export class MessageBoxComponent implements OnInit {
    }
 
    setTeachers(){
-     let teachersIds = this.courses.map(course => course.teacherId);
+    let teachersIds = this.courses.map(course => course.teacherId);
     this.cs.getTeachersOfCourses(teachersIds)
     .then(res => {
       return res.json();

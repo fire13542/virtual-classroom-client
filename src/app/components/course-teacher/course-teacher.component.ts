@@ -73,6 +73,7 @@ export class CourseTeacherComponent implements OnInit {
     })
     .then(response => {
       this.course = response.course;
+      SocketService.socket.emit('joinCourseRoom', this.course._id)
       this.course.image = CoursesService.API_URL + 'courses-images/' + this.course.image;
       this.announcements = CoursesService.announcements.filter(announcement => announcement.courseId == this.course._id.toString());
       this.announcements.forEach(announcement => this.isAnnouncementCollapsed[announcement._id] = true);
